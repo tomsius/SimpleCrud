@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System.Data;
 
 namespace SimpleCrud.Controllers;
 
+[Authorize]
 public class EmployeesController : Controller
 {
     private readonly AppDbContext _context;
