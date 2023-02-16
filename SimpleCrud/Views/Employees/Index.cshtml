@@ -1,0 +1,30 @@
+﻿@model List<SimpleCrud.Models.Domain.Employee>
+@{
+}
+
+<h1>Employees</h1>
+<a class="nav-link text-dark mt-5 mb-5" asp-controller="Employees" asp-action="Add">Add Employee</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th colspan="2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(item => employee.Id)</td>
+                <td>@Html.DisplayFor(item => employee.Name)</td>
+                <td>@Html.DisplayFor(item => employee.Email)</td>
+                <td>@Html.DisplayFor(item => employee.Salary)</td>
+                <td><a href="Employees/Update/@employee.Id">Update</a></td>
+                <td><a style="color: red" href="Employees/Delete/@employee.Id">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

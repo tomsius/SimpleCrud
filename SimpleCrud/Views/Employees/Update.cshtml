@@ -1,0 +1,27 @@
+﻿@model UpdateEmployeeViewModel
+
+@{
+}
+
+<h1>Update Employee</h1>
+<form method="post" action="Update" class="mt-5">
+    <div class="mb-3">
+        <label for="" class="form-label">Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly>
+    </div>
+    
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+
+    <div class="mb-3">
+         <label for="" class="form-label">Email Address</label>
+         <input type="email" class="form-control" asp-for="Email">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Salary</label>
+        <input type="number" class="form-control" asp-for="Salary">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
