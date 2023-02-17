@@ -1,0 +1,26 @@
+﻿@model RegisterViewModel
+
+<h1>Register</h1>
+<form method="post" action="Register" class="mt-5">
+    <div class="mb-3">
+        <label for="" class="form-label">Username</label>
+        <input type="text" class="form-control" asp-for="Username">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Password</label>
+        <input type="password" class="form-control" asp-for="Password">
+    </div>
+    
+    <div class="mb-3">
+        <label for="" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" asp-for="ConfirmedPassword">
+    </div>
+
+    @if (ViewData["ValidationError"] is not null)
+    {
+        <p class="mt-10 mb-10" style="color: red">@ViewData["ValidationError"]</p>
+    }
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
