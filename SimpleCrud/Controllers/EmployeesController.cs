@@ -37,16 +37,19 @@ public class EmployeesController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(AddEmployeeViewModel employee) 
     {
-        Employee newEmployee = new() 
+        if (employee is not null)
         {
-            Id = Guid.NewGuid(),
-            Name = employee.Name,
-            Email= employee.Email,
-            Salary = employee.Salary
-        };
+            Employee newEmployee = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = employee.Name,
+                Email = employee.Email,
+                Salary = employee.Salary
+            };
 
-        await _context.Employees.AddAsync(newEmployee);
-        await _context.SaveChangesAsync();
+            await _context.Employees.AddAsync(newEmployee);
+            await _context.SaveChangesAsync();
+        }
 
         return RedirectToAction("Index");
     }
@@ -75,6 +78,11 @@ public class EmployeesController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(UpdateEmployeeViewModel updatedEmployee)
     {
+        if (updatedEmployee is null)
+        {
+            return RedirectToAction("Index");
+        }
+
         Employee? employee = await _context.Employees.FindAsync(updatedEmployee.Id);
 
         if (employee is not null)

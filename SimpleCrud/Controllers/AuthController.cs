@@ -4,15 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SimpleCrud.Data;
 using SimpleCrud.Models;
 using SimpleCrud.Models.Domain;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace SimpleCrud.Controllers;
 
 public class AuthController : Controller
 {
+    private static readonly Regex _regex = new("^[a-zA-Z0-9]*$");
     private readonly AppDbContext _context;
     private readonly IOptions<IdentityOptions> _identityOptions;
 
@@ -38,6 +41,11 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
+        if (model is null || model.Username is null)
+        {
+            return View();
+        }
+
         User? user = await _context.Users.FindAsync(model.Username);
 
         if (user is null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
@@ -87,6 +95,18 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
+        if (model is null || string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.ConfirmedPassword))
+        {
+            ViewData["ValidationError"] = "Missing one or more input.";
+            return View();
+        }
+
+        if (model.Username.Length < 5 || !_regex.IsMatch(model.Username))
+        {
+            ViewData["ValidationError"] = "Username has to be at least 5 characters long and contain only letter or digits.";
+            return View();
+        }
+
         if (!model.Password.Equals(model.ConfirmedPassword))
         {
             ViewData["ValidationError"] = "Passwords do not match.";
